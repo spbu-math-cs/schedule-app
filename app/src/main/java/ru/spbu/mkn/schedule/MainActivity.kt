@@ -53,13 +53,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MknScheduleAppTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    MainScreen(Modifier.fillMaxSize())
-                }
+                MainScreen()
             }
         }
     }
@@ -84,27 +78,29 @@ fun MainScreen(modifier: Modifier = Modifier) {
             )
         }
     ) { contentPadding ->
-        if (showBottomSheet) {
-            ModalBottomSheet(
-                onDismissRequest = {
-                    showBottomSheet = false
-                },
-                sheetState = sheetState
-            ) {
-                GroupsList(
-                    onItemClick = {
-                        showBottomSheet = true
-                        selectedGroup = it
-                    },
-                    modifier = modifier.padding(contentPadding)
-                )
-            }
-        } else {
+        Column {
             GroupItem(
                 group = selectedGroup,
-                clickAction = { showBottomSheet = false },
+                clickAction = { showBottomSheet = true },
                 modifier = modifier
             )
+            if (showBottomSheet) {
+                ModalBottomSheet(
+                    onDismissRequest = {
+                        showBottomSheet = false
+                    },
+                    sheetState = sheetState
+                ) {
+                    GroupsList(
+                        onItemClick = {
+                            scope.launch { sheetState.hide() }
+                            showBottomSheet = false
+                            selectedGroup = it
+                        },
+                        modifier = modifier.padding(contentPadding)
+                    )
+                }
+            }
         }
     }
 }
