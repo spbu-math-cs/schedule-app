@@ -30,8 +30,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.codelab.basiclayouts.ui.theme.MknScheduleAppTheme
 import ru.spbu.mkn.schedule.data.GroupsData
-import ru.spbu.mkn.schedule.ui.theme.MknScheduleAppTheme
 
 class MainActivity : ComponentActivity() {
 
@@ -85,11 +85,10 @@ fun GroupItem(name: String, modifier: Modifier = Modifier) {
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.width(255.dp)
+            modifier = Modifier.width(255.dp).padding(8.dp)
         ) {
             Text(
                 text = name, style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.padding(horizontal = 16.dp)
             )
         }
     }
